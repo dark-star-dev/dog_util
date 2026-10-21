@@ -66,28 +66,19 @@ install:
 clean:
 	rm -rf $(DIST_DIR) $(BINARY)
 
-release: release-linux-amd64 release-linux-arm64 release-darwin-amd64 release-darwin-arm64
+release: release-dir release-linux-amd64 release-linux-arm64 release-darwin-amd64 release-darwin-arm64
+
+release-dir:
+	@mkdir -p $(DIST_DIR)
 
 release-linux-amd64:
-	@mkdir -p $(DIST_DIR)
 	GOOS=linux GOARCH=amd64 $(GO) build -trimpath -ldflags="-s -w" -o $(DIST_DIR)/$(BINARY)-linux-amd64 .
-	tar -czf $(DIST_DIR)/$(BINARY)-linux-amd64.tar.gz -C $(DIST_DIR) $(BINARY)-linux-amd64
-	rm -f $(DIST_DIR)/$(BINARY)-linux-amd64
 
 release-linux-arm64:
-	@mkdir -p $(DIST_DIR)
 	GOOS=linux GOARCH=arm64 $(GO) build -trimpath -ldflags="-s -w" -o $(DIST_DIR)/$(BINARY)-linux-arm64 .
-	tar -czf $(DIST_DIR)/$(BINARY)-linux-arm64.tar.gz -C $(DIST_DIR) $(BINARY)-linux-arm64
-	rm -f $(DIST_DIR)/$(BINARY)-linux-arm64
 
 release-darwin-amd64:
-	@mkdir -p $(DIST_DIR)
 	GOOS=darwin GOARCH=amd64 $(GO) build -trimpath -ldflags="-s -w" -o $(DIST_DIR)/$(BINARY)-darwin-amd64 .
-	tar -czf $(DIST_DIR)/$(BINARY)-darwin-amd64.tar.gz -C $(DIST_DIR) $(BINARY)-darwin-amd64
-	rm -f $(DIST_DIR)/$(BINARY)-darwin-amd64
 
 release-darwin-arm64:
-	@mkdir -p $(DIST_DIR)
 	GOOS=darwin GOARCH=arm64 $(GO) build -trimpath -ldflags="-s -w" -o $(DIST_DIR)/$(BINARY)-darwin-arm64 .
-	tar -czf $(DIST_DIR)/$(BINARY)-darwin-arm64.tar.gz -C $(DIST_DIR) $(BINARY)-darwin-arm64
-	rm -f $(DIST_DIR)/$(BINARY)-darwin-arm64
